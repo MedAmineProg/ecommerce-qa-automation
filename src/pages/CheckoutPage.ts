@@ -22,7 +22,12 @@ export class CheckoutPage extends BasePage {
     this.expiryMonthInput = page.locator('[data-qa="expiry-month"]');
     this.expiryYearInput = page.locator('[data-qa="expiry-year"]');
     this.payAndConfirmButton = page.locator('[data-qa="pay-button"]');
-    this.orderConfirmationMessage = page.getByText('Your order has been placed successfully!');
+    // The payment page's HTML ships a hidden "Your order has been placed
+    // successfully!" alert (#success_message), but the live site never
+    // actually reveals it — submitting does a full-page navigation to
+    // /payment_done/<id>, which shows this "Order Placed!" heading instead.
+    // See BUG-002 in docs/BUG_LOG.md.
+    this.orderConfirmationMessage = page.getByRole('heading', { name: 'Order Placed!' });
   }
 
   async addOrderComment(comment: string): Promise<void> {
