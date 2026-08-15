@@ -36,13 +36,14 @@ test.describe('Shopping cart', () => {
   }) => {
     await productsPage.open();
     await productsPage.addFirstResultToCart();
-    await page.getByRole('link', { name: 'Continue Shopping' }).click();
+    // "Continue Shopping" is a modal-dismiss <button>, not a link.
+    await page.getByRole('button', { name: 'Continue Shopping' }).click();
     await productsPage.addFirstResultToCart();
     await page.getByRole('link', { name: 'View Cart' }).click();
 
     // Adding the same product twice should increase quantity, not create
     // a duplicate row — a common real-world edge case worth locking down.
     await expect(cartPage.cartRows).toHaveCount(1);
-    await expect(cartPage.cartRows.first().locator('.cart_quantity input')).toHaveValue('2');
+    await expect(cartPage.quantityFor(0)).toHaveText('2');
   });
 });

@@ -28,4 +28,13 @@ export class CartPage extends BasePage {
   async proceedToCheckout(): Promise<void> {
     await this.proceedToCheckoutButton.click();
   }
+
+  /**
+   * The quantity cell is a disabled <button> displaying the count, not an
+   * editable <input> — the cart has no in-page way to change quantity
+   * (see BUG-003 in docs/BUG_LOG.md).
+   */
+  quantityFor(rowIndex: number): Locator {
+    return this.cartRows.nth(rowIndex).locator('.cart_quantity button');
+  }
 }
