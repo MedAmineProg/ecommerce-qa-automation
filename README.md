@@ -69,14 +69,23 @@ artifact.
 
 ## Known limitations
 
-- A handful of selectors (flagged in code comments) are matched against
-  the site's DOM structure as of the time this was built. `automationexercise.com`
-  doesn't expose `data-qa` hooks on every form, so some locators use
-  `name`/`id` attributes instead — the more brittle of the two approaches.
-  Run `npm run codegen` to re-generate and verify if tests start failing
-  unexpectedly.
+- A handful of locators (flagged in code comments) are matched against the
+  site's DOM structure directly, since `automationexercise.com` doesn't
+  expose `data-qa` hooks on every element (e.g. product tiles, the cart
+  quantity cell). These are the more brittle of the two approaches and the
+  most likely to need re-verifying if the site's markup changes — run
+  `npm run codegen` against the live site to re-check if tests start
+  failing unexpectedly.
 - This is a demo/practice site with a dummy payment gateway — the checkout
-  test verifies the confirmation message, not a real payment integration.
+  test verifies the real post-payment confirmation page reached by the
+  live flow (see `docs/BUG_LOG.md` BUG-002 for why that's not the message
+  the static payment page HTML suggests you'd assert on).
+- `automationexercise.com` is a shared public site, not an isolated test
+  environment — it noticeably slows down or hangs requests under heavy
+  concurrent load from a single source. `playwright.config.ts` caps
+  `workers` at 2 and allows one retry outside CI for this reason; see the
+  comment there and the infra note at the bottom of `docs/BUG_LOG.md`
+  before raising either value.
 
 ## Bugs found
 
