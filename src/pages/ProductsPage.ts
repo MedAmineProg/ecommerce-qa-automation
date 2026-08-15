@@ -26,9 +26,13 @@ export class ProductsPage extends BasePage {
     return this.productTiles.count();
   }
 
+  /**
+   * Each product tile renders two "Add to cart" links — one always visible,
+   * one inside a hover overlay (same text, same class). Scoping to
+   * `.productinfo` avoids a strict-mode violation from matching both.
+   */
   async addFirstResultToCart(): Promise<void> {
     const first = this.productTiles.first();
-    await first.hover();
-    await first.getByText('Add to cart').click();
+    await first.locator('.productinfo a.add-to-cart').click();
   }
 }

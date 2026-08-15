@@ -31,14 +31,14 @@ export class HomePage extends BasePage {
 
   /**
    * Adds a product to the cart directly from the home/listing grid by
-   * product id, mirroring how a real shopper hovers a tile and clicks "Add to cart".
-   * NOTE: verify this selector against the live DOM — automationexercise.com
-   * doesn't publish a stable data-qa hook for this button, so it's matched
-   * via the product tile structure instead.
+   * product id. automationexercise.com doesn't publish a data-qa hook for
+   * this button, so it's matched via the product tile structure instead.
+   * Each tile renders two "Add to cart" links (a static one and a hover
+   * overlay duplicate) — scoping to `.productinfo` avoids a strict-mode
+   * violation from matching both.
    */
   async addProductToCartById(productId: number): Promise<void> {
     const tile = this.page.locator(`.product-image-wrapper:has(a[href="/product_details/${productId}"])`);
-    await tile.hover();
-    await tile.getByText('Add to cart').click();
+    await tile.locator('.productinfo a.add-to-cart').click();
   }
 }
