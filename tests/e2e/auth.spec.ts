@@ -27,14 +27,28 @@ test.describe('Authentication', () => {
     await expect(loginPage.loginErrorMessage).toBeVisible();
   });
 
-  test('signing up with an email that already exists is rejected', async ({ homePage, loginPage }) => {
-    // Relies on a stable, pre-existing account. Swap for a seeded test
-    // account rather than a hardcoded one if the suite grows beyond a demo.
-    const existingEmail = 'existing.qa.demo.user@example.com';
+  test('signing up with an email that already exists is rejected', async ({
+    homePage,
+    loginPage,
+    signupPage,
+    page,
+  }) => {
+    // The site has no seeded/known account to test against, and there's no
+    // way to pre-register one out of band — so this test registers its own
+    // user first, logs out, then re-attempts signup with that same email.
+    const user = createNewUser();
 
     await homePage.open();
     await homePage.goToLogin();
-    await loginPage.startSignup('Existing User', existingEmail);
+    await loginPage.startSignup(user.name, user.email);
+    await signupPage.completeAccountInfo(user.account);
+    await expect(signupPage.accountCreatedBanner).toBeVisible();
+    await signupPage.confirmAndContinue();
+    await expect(page.getByText(`Logged in as ${user.name}`)).toBeVisible();
+
+    await page.getByRole('link', { name: /logout/i }).click();
+    await homePage.goToLogin();
+    await loginPage.startSignup(user.name, user.email);
 
     await expect(loginPage.signupErrorMessage).toBeVisible();
   });
