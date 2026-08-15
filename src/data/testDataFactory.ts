@@ -31,8 +31,11 @@ export interface NewUser {
 export function createNewUser(): NewUser {
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
-  // timestamp suffix guarantees uniqueness across repeated CI runs
-  const email = `qa.${firstName}.${Date.now()}@example.com`.toLowerCase();
+  // A timestamp alone can collide when parallel workers generate a user in
+  // the same millisecond with the same faker-picked first name; the random
+  // suffix rules that out without needing a lock or a shared counter.
+  const uniqueSuffix = `${Date.now()}.${faker.string.alphanumeric(6)}`;
+  const email = `qa.${firstName}.${uniqueSuffix}@example.com`.toLowerCase();
 
   return {
     name: `${firstName} ${lastName}`,
