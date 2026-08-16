@@ -46,4 +46,24 @@ export class CheckoutPage extends BasePage {
     await this.expiryYearInput.fill('2028');
     await this.payAndConfirmButton.click();
   }
+
+  /**
+   * Submits the payment form with every field filled except card number,
+   * to exercise the form's native HTML5 `required` validation. Verified
+   * against the live site (all three engines): the browser blocks the
+   * submit and the page never navigates off /payment — there's no custom
+   * validation message, just the native constraint-validation UI.
+   */
+  async submitPaymentWithoutCardNumber(cardholderName: string): Promise<void> {
+    await this.nameOnCardInput.fill(cardholderName);
+    await this.cvcInput.fill('123');
+    await this.expiryMonthInput.fill('12');
+    await this.expiryYearInput.fill('2028');
+    await this.payAndConfirmButton.click();
+  }
+
+  /** True when the card number field is failing its native required-field constraint. */
+  async isCardNumberFieldInvalid(): Promise<boolean> {
+    return this.cardNumberInput.evaluate((el: HTMLInputElement) => !el.checkValidity());
+  }
 }

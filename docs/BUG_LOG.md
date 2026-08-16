@@ -114,6 +114,38 @@ they're easy to reference in an interview or PR discussion.
 
 ---
 
+## BUG-005: Payment form silently accepts an obviously invalid card number
+
+- **Severity**: Medium
+- **Found in**: `/payment` (checkout flow)
+- **Steps to reproduce**:
+  1. Reach the payment step of checkout with a product in the cart.
+  2. Fill in all fields with valid-looking values except card number,
+     which gets `123`.
+  3. Submit via "Pay and Confirm Order".
+- **Expected result**: Some client- or server-side pushback on a 3-digit
+  "card number" — even a fake/dummy payment gateway typically validates
+  numeric length or a Luhn checksum before accepting.
+- **Actual result**: The order is placed successfully — same
+  `/payment_done/<id>` "Order Placed!" flow as a real card number. The
+  only validation on this form is the browser's native `required`
+  attribute (blocks *empty* fields — see the passing half of
+  `checkout.spec.ts`'s new sad-path test); there is no format or length
+  validation on card number, CVC, or expiry at all once a field is
+  non-empty.
+- **Environment**: Chromium, Firefox, WebKit, automationexercise.com.
+- **Notes**: This is the more interesting half of the "invalid payment
+  details" investigation — an empty card number is correctly blocked
+  (native HTML5 validation, verified across all three engines), but a
+  present-and-wrong one sails through untouched. Not asserted as a test
+  failure here since accepting *some* junk value is arguably intended
+  behaviour for a dummy training gateway with no real payment processor
+  behind it, but it's exactly the kind of gap a real payment integration
+  would need to close, so it's recorded here rather than silently
+  discovered and dropped.
+
+---
+
 ## Related: shared-target test infrastructure note
 
 Not a site bug, but worth recording alongside these: automationexercise.com

@@ -79,7 +79,12 @@ artifact.
 - This is a demo/practice site with a dummy payment gateway — the checkout
   test verifies the real post-payment confirmation page reached by the
   live flow (see `docs/BUG_LOG.md` BUG-002 for why that's not the message
-  the static payment page HTML suggests you'd assert on).
+  the static payment page HTML suggests you'd assert on). The gateway also
+  has no real field validation beyond the browser's native "required"
+  check — a present-but-invalid card number is accepted outright (BUG-005)
+  — so the sad-path checkout test targets the one behaviour that's
+  actually enforced (a missing card number), not card-format validation
+  that doesn't exist.
 - `automationexercise.com` is a shared public site, not an isolated test
   environment — it noticeably slows down or hangs requests under heavy
   concurrent load from a single source. `playwright.config.ts` caps
