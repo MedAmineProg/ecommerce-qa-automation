@@ -87,6 +87,33 @@ they're easy to reference in an interview or PR discussion.
 
 ---
 
+## BUG-004: Zero-result search shows no "no products found" state
+
+- **Severity**: Low / UX
+- **Found in**: `/products?search=<term>` (product search)
+- **Steps to reproduce**:
+  1. Go to the Products page.
+  2. Search for a term guaranteed not to match anything, e.g.
+     `zzzxcvnonsensequery12345`.
+- **Expected result**: Some explicit feedback that the search ran and
+  found nothing — an empty-state message, an illustration, anything that
+  distinguishes "zero results" from "the page is still loading" or "the
+  page is broken".
+- **Actual result**: The page renders the "Searched Products" heading with
+  an entirely empty grid underneath it. There is no "No products found",
+  no result count, no empty-state messaging of any kind — the only signal
+  that the search completed successfully is the *absence* of product
+  tiles.
+- **Environment**: Chromium, Firefox, WebKit, automationexercise.com.
+- **Notes**: Confirmed by inspecting the live DOM after a genuinely
+  unmatched search — there's no hidden "no-results" element that merely
+  needs a CSS class flipped; the markup for that state simply doesn't
+  exist. `tests/e2e/product-search.spec.ts` asserts on the heading (proof
+  the search executed) plus zero tiles (proof of no matches), since that's
+  the only verifiable signal the site actually gives.
+
+---
+
 ## Related: shared-target test infrastructure note
 
 Not a site bug, but worth recording alongside these: automationexercise.com

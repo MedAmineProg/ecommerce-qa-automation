@@ -5,12 +5,18 @@ export class ProductsPage extends BasePage {
   readonly searchInput: Locator;
   readonly searchButton: Locator;
   readonly productTiles: Locator;
+  readonly searchedProductsHeading: Locator;
 
   constructor(page: Page) {
     super(page);
     this.searchInput = page.locator('#search_product');
     this.searchButton = page.locator('#submit_search');
     this.productTiles = page.locator('.product-image-wrapper');
+    // The site has no dedicated "no results" message (see BUG-004 in
+    // docs/BUG_LOG.md) — a zero-match search still renders this heading
+    // with an empty grid underneath, which is the only way to confirm the
+    // search actually ran rather than the page being stuck/broken.
+    this.searchedProductsHeading = page.getByRole('heading', { name: 'Searched Products' });
   }
 
   async open(): Promise<void> {
