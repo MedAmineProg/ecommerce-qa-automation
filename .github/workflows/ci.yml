@@ -25,7 +25,10 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run test suite
+      - name: Run unit tests (squashtm-exporter)
+        run: npm run test:unit
+
+      - name: Run E2E/API test suite
         run: npx playwright test
 
       - name: Upload HTML report
