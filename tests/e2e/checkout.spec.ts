@@ -2,7 +2,7 @@ import { test, expect } from '../../src/fixtures/pageFixtures';
 import { createNewUser } from '../../src/data/testDataFactory';
 
 test.describe('Checkout', () => {
-  test('a signed-up user can place an order end to end', async ({
+  test('[TC-101] a signed-up user can place an order end to end', async ({
     homePage,
     loginPage,
     signupPage,
@@ -37,7 +37,7 @@ test.describe('Checkout', () => {
     await expect(checkoutPage.orderConfirmationMessage).toBeVisible();
   });
 
-  test('checkout blocks submission when the card number is missing', async ({
+  test('[TC-102] checkout blocks submission when the card number is missing', async ({
     homePage,
     loginPage,
     signupPage,

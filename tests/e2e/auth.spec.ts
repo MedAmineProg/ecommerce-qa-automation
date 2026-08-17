@@ -2,7 +2,7 @@ import { test, expect } from '../../src/fixtures/pageFixtures';
 import { createNewUser } from '../../src/data/testDataFactory';
 
 test.describe('Authentication', () => {
-  test('a new user can sign up successfully', async ({ homePage, loginPage, signupPage, page }) => {
+  test('[TC-104] a new user can sign up successfully', async ({ homePage, loginPage, signupPage, page }) => {
     const user = createNewUser();
 
     await homePage.open();

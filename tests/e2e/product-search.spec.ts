@@ -1,7 +1,7 @@
 import { test, expect } from '../../src/fixtures/pageFixtures';
 
 test.describe('Product search', () => {
-  test('searching for a term with no matches shows zero results', async ({ productsPage }) => {
+  test('[TC-103] searching for a term with no matches shows zero results', async ({ productsPage }) => {
     await productsPage.open();
     await productsPage.search('zzzxcvnonsensequery12345');
 
