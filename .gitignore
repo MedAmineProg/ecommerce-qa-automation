@@ -4,3 +4,5 @@ playwright-report/
 playwright/.cache/
 .env
 *.log
+playwright-json-report.json
+squashtm-import.csv
