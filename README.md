@@ -29,16 +29,18 @@ environment-driven config, custom fixtures, and CI integration.
 
 ```
 ├── src/
-│   ├── config/        # environment config
-│   ├── data/           # test data factories
-│   ├── fixtures/       # custom Playwright fixtures (page objects)
-│   └── pages/           # Page Object Model classes
+│   ├── config/           # environment config
+│   ├── data/             # test data factories
+│   ├── fixtures/         # custom Playwright fixtures (page objects)
+│   ├── pages/             # Page Object Model classes
+│   └── reporting/
+│       └── squashtm-exporter/  # Playwright JSON report -> SquashTM CSV converter
 ├── tests/
-│   ├── e2e/             # UI end-to-end specs
-│   └── api/             # API-level specs
+│   ├── e2e/               # UI end-to-end specs
+│   └── api/               # API-level specs
 ├── docs/
-│   └── BUG_LOG.md        # real issues found while building this suite
-└── .github/workflows/    # CI pipeline
+│   └── BUG_LOG.md          # real issues found while building this suite
+└── .github/workflows/      # CI pipeline
 ```
 
 ## Setup
@@ -56,9 +58,26 @@ npm test                 # full suite, all browsers
 npm run test:chromium    # single browser
 npm run test:e2e         # UI specs only
 npm run test:api         # API specs only
+npm run test:unit        # Jest unit tests (src/reporting/squashtm-exporter)
 npm run test:ui          # Playwright's interactive UI mode
 npm run report           # open the last HTML report
 ```
+
+## Test Reporting
+
+`src/reporting/squashtm-exporter/` converts a Playwright JSON test report
+into a CSV file formatted for import into SquashTM, an enterprise test
+management tool — see
+[its README](src/reporting/squashtm-exporter/README.md) for the full
+design and the SquashTM-specific column/status mapping.
+
+```bash
+npm run export:squashtm   # runs the suite, writes squashtm-import.csv at the repo root
+```
+
+Its own unit tests run separately from the Playwright suite, via Jest
+(`npm run test:unit`) — see [`jest.config.js`](jest.config.js), scoped to
+just that module.
 
 ## CI
 
