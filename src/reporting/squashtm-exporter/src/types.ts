@@ -31,7 +31,8 @@ export interface PlaywrightSpec {
 }
 
 export interface PlaywrightTest {
-  title: string;
+  // Note: real Playwright JSON reporter output does not put a title here —
+  // only PlaywrightSpec.title carries it. See parser.ts.
   annotations?: { type: string; description?: string }[];
   results: PlaywrightResult[];
 }
