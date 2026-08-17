@@ -11,14 +11,18 @@
     "test:webkit": "playwright test --project=webkit",
     "test:e2e": "playwright test tests/e2e",
     "test:api": "playwright test tests/api",
+    "test:unit": "jest",
     "report": "playwright show-report",
     "codegen": "playwright codegen https://automationexercise.com"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0",
     "@faker-js/faker": "^9.0.0",
+    "@playwright/test": "^1.48.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^22.0.0",
     "dotenv": "^16.4.5",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.12",
     "typescript": "^5.6.0"
   }
 }

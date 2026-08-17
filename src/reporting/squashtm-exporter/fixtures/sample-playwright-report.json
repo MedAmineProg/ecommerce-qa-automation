@@ -1,0 +1,59 @@
+{
+  "suites": [
+    {
+      "title": "checkout.spec.ts",
+      "specs": [
+        {
+          "title": "[TC-101] user can complete checkout with valid payment",
+          "tests": [
+            {
+              "title": "[TC-101] user can complete checkout with valid payment",
+              "results": [
+                {
+                  "status": "passed",
+                  "duration": 4213,
+                  "startTime": "2026-08-17T09:12:00.000Z"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "[TC-102] checkout rejects invalid card number",
+          "tests": [
+            {
+              "title": "[TC-102] checkout rejects invalid card number",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 3877,
+                  "startTime": "2026-08-17T09:12:05.000Z",
+                  "error": { "message": "expect(locator).toBeVisible() failed: element not found" }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "search returns empty state for nonsense query",
+          "tests": [
+            {
+              "title": "search returns empty state for nonsense query",
+              "results": [
+                {
+                  "status": "skipped",
+                  "duration": 0,
+                  "startTime": "2026-08-17T09:12:09.000Z"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "startTime": "2026-08-17T09:12:00.000Z",
+    "duration": 8090
+  }
+}
