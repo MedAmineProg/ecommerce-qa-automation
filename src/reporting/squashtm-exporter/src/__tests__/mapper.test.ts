@@ -38,4 +38,15 @@ describe("mapToSquashRows", () => {
     const [row] = mapToSquashRows(input);
     expect(row.comment.length).toBe(500);
   });
+
+  it("strips ANSI color codes from error messages before they reach the comment field", () => {
+    // Real shape observed from `playwright test --reporter=json`: Playwright
+    // colorizes expect() diffs even when the output isn't a TTY.
+    const colorized = "\x1b[2mexpect(\x1b[22m\x1b[31mreceived\x1b[39m\x1b[2m).\x1b[22mtoBe\x1b[2m(\x1b[22m\x1b[32mexpected\x1b[39m\x1b[2m)\x1b[22m";
+    const input: FlatTestResult[] = [
+      { title: "[TC-1] a", status: "failed", duration: 10, errorMessage: colorized },
+    ];
+    const [row] = mapToSquashRows(input);
+    expect(row.comment).toBe("expect(received).toBe(expected)");
+  });
 });
