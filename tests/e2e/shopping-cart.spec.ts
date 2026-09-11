@@ -1,7 +1,7 @@
 import { test, expect } from '../../src/fixtures/pageFixtures';
 
 test.describe('Shopping cart', () => {
-  test('adding a product from the products page updates the cart', async ({
+  test('[TC-107] adding a product from the products page updates the cart', async ({
     productsPage,
     cartPage,
     page,
@@ -15,7 +15,7 @@ test.describe('Shopping cart', () => {
     await expect(cartPage.cartRows).toHaveCount(1);
   });
 
-  test('removing the only item in the cart shows the empty-cart state', async ({
+  test('[TC-108] removing the only item in the cart shows the empty-cart state', async ({
     productsPage,
     cartPage,
     page,
@@ -29,7 +29,7 @@ test.describe('Shopping cart', () => {
     await expect(cartPage.emptyCartMessage).toBeVisible();
   });
 
-  test('cart persists the correct quantity for a repeated add', async ({
+  test('[TC-109] cart persists the correct quantity for a repeated add', async ({
     productsPage,
     cartPage,
     page,

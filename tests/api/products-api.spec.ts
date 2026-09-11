@@ -8,7 +8,7 @@ import { env } from '../../src/config/env';
  * a UI test would even get there.
  */
 test.describe('Products API', () => {
-  test('GET productsList returns 200 with a product array', async ({ request }) => {
+  test('[TC-110] GET productsList returns 200 with a product array', async ({ request }) => {
     const response = await request.get(`${env.apiBaseUrl}/productsList`);
     expect(response.status()).toBe(200);
 
@@ -17,7 +17,7 @@ test.describe('Products API', () => {
     expect(body.products.length).toBeGreaterThan(0);
   });
 
-  test('POST productsList is rejected — the endpoint is read-only', async ({ request }) => {
+  test('[TC-111] POST productsList is rejected — the endpoint is read-only', async ({ request }) => {
     const response = await request.post(`${env.apiBaseUrl}/productsList`);
     const body = await response.json();
 
@@ -25,7 +25,7 @@ test.describe('Products API', () => {
     expect(body.message).toContain('not supported');
   });
 
-  test('searchProduct returns matching results for a known term', async ({ request }) => {
+  test('[TC-112] searchProduct returns matching results for a known term', async ({ request }) => {
     const response = await request.post(`${env.apiBaseUrl}/searchProduct`, {
       form: { search_product: 'top' },
     });
@@ -46,7 +46,7 @@ test.describe('Products API', () => {
     }
   });
 
-  test('searchProduct without a search term returns a clear error', async ({ request }) => {
+  test('[TC-113] searchProduct without a search term returns a clear error', async ({ request }) => {
     const response = await request.post(`${env.apiBaseUrl}/searchProduct`, { form: {} });
     const body = await response.json();
 

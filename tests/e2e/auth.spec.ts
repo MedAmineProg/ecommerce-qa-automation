@@ -18,7 +18,7 @@ test.describe('Authentication', () => {
     await expect(page.getByText(`Logged in as ${user.name}`)).toBeVisible();
   });
 
-  test('logging in with an unregistered email shows an error', async ({ homePage, loginPage }) => {
+  test('[TC-105] logging in with an unregistered email shows an error', async ({ homePage, loginPage }) => {
     await homePage.open();
     await homePage.goToLogin();
 
@@ -27,7 +27,7 @@ test.describe('Authentication', () => {
     await expect(loginPage.loginErrorMessage).toBeVisible();
   });
 
-  test('signing up with an email that already exists is rejected', async ({
+  test('[TC-106] signing up with an email that already exists is rejected', async ({
     homePage,
     loginPage,
     signupPage,
