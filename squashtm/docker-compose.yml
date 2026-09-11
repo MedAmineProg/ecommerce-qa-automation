@@ -1,0 +1,48 @@
+# Local-only SquashTM instance for verifying the squashtm-exporter's live
+# REST API integration against a real server. NOT for production use —
+# default credentials, no TLS, no persistence guarantees beyond the named
+# volumes. See README.md in this folder for boot time and verification
+# steps.
+services:
+  squash-tm-pg:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${DB_USER:-squashtm}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-MustB3Ch4ng3d}
+      POSTGRES_DB: ${DB_DATABASE:-squashtm}
+    volumes:
+      - squash-tm-db-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-squashtm}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  squash-tm:
+    image: squashtest/squash:15.0.0
+    depends_on:
+      squash-tm-pg:
+        condition: service_healthy
+    environment:
+      SQTM_DB_TYPE: postgresql
+      SQTM_DB_USERNAME: ${DB_USER:-squashtm}
+      SQTM_DB_PASSWORD: ${DB_PASSWORD:-MustB3Ch4ng3d}
+      SQTM_DB_NAME: ${DB_DATABASE:-squashtm}
+      SQTM_DB_HOST: squash-tm-pg
+      SQTM_DB_PORT: "5432"
+      # Personal API tokens (the only working auth method for the REST API
+      # on current versions — see squashtm/README.md) require a JWT signing
+      # secret. Spring Boot's relaxed env-var binding maps this shell var to
+      # the `squash.rest-api.jwt.secret` property; the Docker image's own
+      # config file documents shell env vars as a supported resolution
+      # source. Must be base64, >=512 bits (the image also enforces this
+      # and refuses to start otherwise).
+      SQUASH_REST_API_JWT_SECRET: ${SQUASH_REST_API_JWT_SECRET:?Set SQUASH_REST_API_JWT_SECRET in squashtm/.env — see README.md}
+    ports:
+      - "8090:8080"
+    volumes:
+      - squash-tm-logs:/opt/squash-tm/logs
+
+volumes:
+  squash-tm-db-pg:
+  squash-tm-logs:
