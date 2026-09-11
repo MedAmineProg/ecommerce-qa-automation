@@ -3,6 +3,7 @@ test-results/
 playwright-report/
 playwright/.cache/
 .env
+squashtm/.env
 *.log
 playwright-json-report.json
 squashtm-import.csv
