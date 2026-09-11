@@ -67,12 +67,17 @@ npm run report           # open the last HTML report
 
 `src/reporting/squashtm-exporter/` converts a Playwright JSON test report
 into a CSV file formatted for import into SquashTM, an enterprise test
-management tool — see
+management tool, and can optionally push those same results live to a
+real SquashTM instance over its REST API — see
 [its README](src/reporting/squashtm-exporter/README.md) for the full
-design and the SquashTM-specific column/status mapping.
+design, the column/status mapping, and a from-the-source writeup of
+SquashTM's actual REST API (auth, endpoints, real constraints), verified
+against a self-hosted instance (`squashtm/`, a throwaway local
+docker-compose stack) rather than assumed from documentation alone.
 
 ```bash
-npm run export:squashtm   # runs the suite, writes squashtm-import.csv at the repo root
+npm run export:squashtm            # writes squashtm-import.csv at the repo root
+npm run export:squashtm -- --push  # also pushes live — needs SQUASHTM_* env vars, see .env.example
 ```
 
 Its own unit tests run separately from the Playwright suite, via Jest
