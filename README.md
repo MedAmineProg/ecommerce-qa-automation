@@ -125,18 +125,21 @@ TC-103,[TC-103] searching for a term with no matches shows zero results,SUCCESS,
 repo's own suite landing in a real SquashTM campaign, taken right after
 running `npm run export:squashtm -- --push` against the local
 `squashtm/` instance — not a mock, and not staged from the sample
-fixture.
+fixture. All 13 of this repo's test cases are set up in the demo
+project's test plan, each pushed cleanly (`13/13 accepted`, 0 per-test
+errors).
 
-![A SquashTM campaign statistics dashboard showing "Test case status: 100% (1) Passed" as a green pie chart, for the "Playwright CI Run" campaign under the "SquashTM Exporter Demo" project.](docs/images/squashtm-push-proof.png)
+![A SquashTM campaign statistics dashboard showing "Test case status: 100% (13) Passed" as a green pie chart, for the "Playwright CI Run" campaign under the "SquashTM Exporter Demo" project.](docs/images/squashtm-push-proof.png)
 
 One real constraint this surfaced: SquashTM's import endpoint rejects a
 batch that has the *same* reference more than once (`"The reference and
 dataset name combination must be unique"`) — so pushing the full
 multi-browser CSV in one call (each test case appears 3×, once per
 browser) fails outright. The screenshot above is from a single-browser
-(`--project=chromium`) run instead. This is a real, current limitation of
-`--push` with this repo's multi-browser suite, not yet worked around in
-code — see the module's README for the full detail.
+(`--project=chromium`) run instead — 13 unique references, no
+duplicates. This is a real, current limitation of `--push` with this
+repo's multi-browser suite, not yet worked around in code — see the
+module's README for the full detail.
 
 ## CI
 

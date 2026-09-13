@@ -263,6 +263,19 @@ sample fixture: ran `npm run export:squashtm -- --push` for real
 (chromium only, per the duplicate-reference limitation above) and
 confirmed the result in the SquashTM UI — screenshot in the root
 [README's Test Reporting section](../../../README.md#test-reporting).
+At that point only `TC-101` had a test case set up in the demo project,
+so the other 12 references correctly came back as "not found in
+iteration" per-test errors — real, correct behaviour for an incomplete
+test plan, not a bug.
+
+All 13 of this repo's `[TC-xxx]` references now have a matching test
+case in the demo project's test plan (created via `POST /test-cases`,
+Automated Test Reference set via the same UI-only endpoint above, added
+to the iteration via `POST /iterations/{id}/test-plan` — same calls
+documented throughout this file, just done 13× instead of 1×). A
+`--project=chromium` push now reports `13/13 accepted, 0 errors`. The
+`docs/images/squashtm-push-proof.png` screenshot in the root README
+reflects this fully-populated state.
 
 ## Adapting this to a real (non-local, non-Community) SquashTM instance
 
