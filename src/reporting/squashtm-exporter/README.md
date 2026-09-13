@@ -277,6 +277,14 @@ documented throughout this file, just done 13× instead of 1×). A
 `docs/images/squashtm-push-proof.png` screenshot in the root README
 reflects this fully-populated state.
 
+Each test case's `name` was also updated (`PATCH /test-cases/{id}`) to
+the exact Playwright test title, brackets included (e.g.
+`[TC-101] a signed-up user can place an order end to end`) — they were
+initially created with just the description stripped of the `[TC-xxx]`
+prefix, which didn't match `mapper.ts`'s own `testCaseName` (the full
+title, unstripped) or the CSV's `TEST_CASE_NAME` column. Now consistent
+across the demo project, the CSV, and the source test titles.
+
 ## Adapting this to a real (non-local, non-Community) SquashTM instance
 
 1. Confirm your instance's actual REST API docs at
