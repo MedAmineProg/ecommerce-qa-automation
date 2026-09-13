@@ -10,6 +10,7 @@
     "test:headed": "playwright test --headed",
     "posttest:headed": "node scripts/push-squashtm-if-configured.js",
     "test:chromium": "playwright test --project=chromium",
+    "test:chromium:headed": "playwright test --project=chromium --headed",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
     "test:e2e": "playwright test tests/e2e",
