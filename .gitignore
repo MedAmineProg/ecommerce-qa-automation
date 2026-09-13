@@ -5,6 +5,7 @@ playwright/.cache/
 .env
 squashtm/.env
 *.log
+logs/
 playwright-json-report.json
 playwright-json-report.chromium.json
 squashtm-import.csv

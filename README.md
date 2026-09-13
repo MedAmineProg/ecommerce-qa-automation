@@ -74,6 +74,11 @@ npm run test:ui          # Playwright's interactive UI mode
 npm run report           # open the last HTML report
 ```
 
+Or `npm run launch` for an interactive menu over all of the above (plus
+the SquashTM export/push commands) — colored live output, and every run
+also saved as a plain-text log under `logs/` (gitignored) so you don't
+need to have kept the terminal scrollback.
+
 ## Test Reporting
 
 `src/reporting/squashtm-exporter/` converts a Playwright JSON test report

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Playwright + TypeScript E2E and API test automation framework built against automationexercise.com, using the Page Object Model pattern.",
   "scripts": {
+    "launch": "node scripts/launcher.js",
     "test": "playwright test",
     "posttest": "node scripts/push-squashtm-if-configured.js",
     "test:ui": "playwright test --ui",
