@@ -201,6 +201,28 @@ internal, UI-only endpoint, not part of the public REST API; setting it
 is a one-time step per test case, done once in the UI, not part of the CI
 loop.)
 
+### Duplicate references within one batch are rejected
+
+Pushing this repo's actual multi-browser CSV (chromium + firefox +
+webkit — every test case's reference appears 3×) in a single `--push`
+call fails the whole request with HTTP 412:
+
+```json
+{"fieldValidationErrors":[{"errorMessage":"The reference and dataset name combination must be unique","fieldName":"tests[4]", ...}]}
+```
+
+The import endpoint requires each `reference` (+ dataset, if any) to be
+unique *within one request* — it has no concept of "same test, three
+browsers" and no way to disambiguate repeats in a single call. Confirmed
+by reproducing it directly: pushing the full 39-row export failed
+outright; filtering to a single browser's 13 unique references
+(`npx playwright test --project=chromium --reporter=json | ... --push`)
+succeeded. `api-client.ts` doesn't work around this yet — sending one
+call per browser, or per test, would be the fix, but that's real design
+work (dataset-per-browser? separate iterations per browser?) rather than
+a one-line change, so it's left as a documented limitation rather than a
+rushed fix.
+
 ### A real Community-edition limitation
 
 The import payload supports an optional `failure_details` array for
@@ -230,6 +252,12 @@ placing that test case into the iteration. Ran this module's actual CLI
 - `TC-102` and the unmapped test (neither in the test plan) correctly
   came back as per-test 207 errors, printed clearly by the CLI, rather
   than crashing the whole push or failing silently.
+
+Verified again later, against this repo's real suite rather than the
+sample fixture: ran `npm run export:squashtm -- --push` for real
+(chromium only, per the duplicate-reference limitation above) and
+confirmed the result in the SquashTM UI — screenshot in the root
+[README's Test Reporting section](../../../README.md#test-reporting).
 
 ## Adapting this to a real (non-local, non-Community) SquashTM instance
 

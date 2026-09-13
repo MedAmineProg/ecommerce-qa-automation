@@ -108,13 +108,22 @@ TC-102,[TC-102] checkout blocks submission when the card number is missing,SUCCE
 TC-103,[TC-103] searching for a term with no matches shows zero results,SUCCESS,2026-09-13T16:04:01.122Z,3833,
 ```
 
-**Live-push proof pending**: `--push` was verified end-to-end against a
-real local SquashTM instance while building this (see the module's
-README for the full writeup — execution status confirmed via both the
-REST API and the SquashTM UI). Docker isn't running on this machine right
-now, so a fresh screenshot isn't included here yet — add one under
-`docs/` once the `squashtm/` container is back up and linked from this
-section.
+**Live push, proven**: the screenshot below is a real result from this
+repo's own suite landing in a real SquashTM campaign, taken right after
+running `npm run export:squashtm -- --push` against the local
+`squashtm/` instance — not a mock, and not staged from the sample
+fixture.
+
+![A SquashTM campaign statistics dashboard showing "Test case status: 100% (1) Passed" as a green pie chart, for the "Playwright CI Run" campaign under the "SquashTM Exporter Demo" project.](docs/images/squashtm-push-proof.png)
+
+One real constraint this surfaced: SquashTM's import endpoint rejects a
+batch that has the *same* reference more than once (`"The reference and
+dataset name combination must be unique"`) — so pushing the full
+multi-browser CSV in one call (each test case appears 3×, once per
+browser) fails outright. The screenshot above is from a single-browser
+(`--project=chromium`) run instead. This is a real, current limitation of
+`--push` with this repo's multi-browser suite, not yet worked around in
+code — see the module's README for the full detail.
 
 ## CI
 
