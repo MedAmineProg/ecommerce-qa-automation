@@ -223,6 +223,11 @@ work (dataset-per-browser? separate iterations per browser?) rather than
 a one-line change, so it's left as a documented limitation rather than a
 rushed fix.
 
+This is also why the repo-root `posttest` auto-push hook (see the root
+README's Test Reporting section) scopes itself to chromium's results only
+— pushing the real multi-browser output automatically would fail on
+every single green run otherwise.
+
 ### A real Community-edition limitation
 
 The import payload supports an optional `failure_details` array for

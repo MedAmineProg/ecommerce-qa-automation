@@ -91,6 +91,14 @@ npm run export:squashtm            # writes squashtm-import.csv at the repo root
 npm run export:squashtm -- --push  # also pushes live — needs SQUASHTM_* env vars, see .env.example
 ```
 
+**`npm test` will also auto-push, locally, if configured.** A `posttest`
+npm lifecycle script (`scripts/push-squashtm-if-configured.js`) runs
+right after `npm test` finishes and, only if `SQUASHTM_*` env vars are
+set, pushes results live — no extra command needed. Not set → it no-ops
+with a one-line note. This never runs in CI (CI calls `npx playwright
+test` directly, not `npm test`) and is scoped to chromium's results only,
+because of the batch-uniqueness limitation below.
+
 Its own unit tests run separately from the Playwright suite, via Jest
 (`npm run test:unit`) — see [`jest.config.js`](jest.config.js), scoped to
 just that module.

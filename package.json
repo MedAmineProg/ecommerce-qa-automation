@@ -4,6 +4,7 @@
   "description": "Playwright + TypeScript E2E and API test automation framework built against automationexercise.com, using the Page Object Model pattern.",
   "scripts": {
     "test": "playwright test",
+    "posttest": "node scripts/push-squashtm-if-configured.js",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "test:chromium": "playwright test --project=chromium",
@@ -14,7 +15,7 @@
     "test:unit": "jest",
     "report": "playwright show-report",
     "codegen": "playwright codegen https://automationexercise.com",
-    "export:squashtm": "playwright test --reporter=json > playwright-json-report.json && ts-node src/reporting/squashtm-exporter/src/index.ts playwright-json-report.json squashtm-import.csv"
+    "export:squashtm": "playwright test && ts-node src/reporting/squashtm-exporter/src/index.ts playwright-json-report.json squashtm-import.csv"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.0.0",

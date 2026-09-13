@@ -25,6 +25,11 @@ export default defineConfig({
   reporter: [
     ['html', { open: 'never' }],
     ['list'],
+    // Always produced (not just when --reporter=json is passed explicitly)
+    // so both `export:squashtm` and the `posttest` local auto-push hook
+    // (see package.json, scripts/push-squashtm-if-configured.js) can reuse
+    // it without re-running the suite.
+    ['json', { outputFile: 'playwright-json-report.json' }],
   ],
   use: {
     baseURL: env.baseUrl,
