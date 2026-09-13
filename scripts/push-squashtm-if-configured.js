@@ -21,6 +21,10 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 
 const ROOT = path.join(__dirname, "..");
+// This runs as its own process (an npm lifecycle hook), so it needs to load
+// .env itself — it doesn't inherit anything index.ts's own dotenv.config()
+// call picks up later, since that happens in a separate child process.
+require("dotenv").config({ path: path.join(ROOT, ".env") });
 const { SQUASHTM_BASE_URL, SQUASHTM_API_TOKEN, SQUASHTM_ITERATION_ID } = process.env;
 
 if (!SQUASHTM_BASE_URL || !SQUASHTM_API_TOKEN || !SQUASHTM_ITERATION_ID) {

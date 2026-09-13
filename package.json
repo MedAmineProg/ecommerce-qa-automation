@@ -7,6 +7,7 @@
     "posttest": "node scripts/push-squashtm-if-configured.js",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
+    "posttest:headed": "node scripts/push-squashtm-if-configured.js",
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
