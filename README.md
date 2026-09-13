@@ -1,10 +1,21 @@
+![CI](https://github.com/MedAmineProg/ecommerce-qa-automation/actions/workflows/ci.yml/badge.svg?branch=main)
+
 # E-commerce QA Automation Framework
+
+*Playwright + TypeScript, Page Object Model, with enterprise
+test-management reporting.*
 
 A Playwright + TypeScript end-to-end and API test suite built against
 [automationexercise.com](https://automationexercise.com), a public
 practice site for QA engineers. Built as a portfolio piece to demonstrate
 the same patterns used in production test suites: Page Object Model,
 environment-driven config, custom fixtures, and CI integration.
+
+Beyond the test suite itself, this repo also ships a results-reporting
+pipeline: Playwright JSON output converted — and optionally pushed live —
+into SquashTM, an enterprise test-management tool, verified end-to-end
+against a real self-hosted instance rather than assumed from
+documentation. See [Test Reporting](#test-reporting).
 
 ## Why these choices
 
@@ -83,6 +94,27 @@ npm run export:squashtm -- --push  # also pushes live — needs SQUASHTM_* env v
 Its own unit tests run separately from the Playwright suite, via Jest
 (`npm run test:unit`) — see [`jest.config.js`](jest.config.js), scoped to
 just that module.
+
+### Real output
+
+`squashtm-import.csv`, from an actual `npm run export:squashtm` run against
+this repo's own suite (full CSV has 39 rows — one per test × browser):
+
+```csv
+TEST_CASE_REFERENCE,TEST_CASE_NAME,STATUS,EXECUTION_DATE,DURATION_MS,COMMENT
+TC-110,[TC-110] GET productsList returns 200 with a product array,SUCCESS,2026-09-13T16:03:30.899Z,1129,
+TC-101,[TC-101] a signed-up user can place an order end to end,SUCCESS,2026-09-13T16:03:44.272Z,16824,
+TC-102,[TC-102] checkout blocks submission when the card number is missing,SUCCESS,2026-09-13T16:03:51.076Z,11648,
+TC-103,[TC-103] searching for a term with no matches shows zero results,SUCCESS,2026-09-13T16:04:01.122Z,3833,
+```
+
+**Live-push proof pending**: `--push` was verified end-to-end against a
+real local SquashTM instance while building this (see the module's
+README for the full writeup — execution status confirmed via both the
+REST API and the SquashTM UI). Docker isn't running on this machine right
+now, so a fresh screenshot isn't included here yet — add one under
+`docs/` once the `squashtm/` container is back up and linked from this
+section.
 
 ## CI
 
